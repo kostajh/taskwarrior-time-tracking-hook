@@ -3,7 +3,7 @@ import datetime
 import json
 import sys
 
-TIME_FORMAT = '%Y-%m-%dT%H%M%SZ'
+TIME_FORMAT = '%Y%m%dT%H%M%SZ'
 UDA_KEY = 'timetrackingseconds'
 
 
@@ -12,21 +12,28 @@ def main(stdin):
     original = json.loads(lines[0])
     modified = json.loads(lines[1])
 
-    if 'end' in modified and 'end' not in original:
+    if 'start' in original and 'start' not in modified:
         # Let's see how much time has elapsed
-        start = datetime.datetime.strptime(modified['start'], TIME_FORMAT)
-        end = datetime.datetime.strptime(modified['end'], TIME_FORMAT)
+        start = datetime.datetime.strptime(original['start'], TIME_FORMAT)
+        end = datetime.datetime.utcnow()
 
         if UDA_KEY not in modified:
             modified[UDA_KEY] = 0
 
+        this_duration = (end - start)
         total_duration = (
-            (end - start)
-            + datetime.timedelta(seconds=modified[UDA_KEY])
+            this_duration
+            + datetime.timedelta(seconds=int(modified[UDA_KEY]))
         )
-        modified[UDA_KEY] = (
+        print(
+            "Total Time Tracked: %s (%s in this instance)" % (
+                total_duration,
+                this_duration,
+            )
+        )
+        modified[UDA_KEY] = str(int(
             total_duration.days * (60 * 60 * 24) + total_duration.seconds
-        )
+        ))
 
     return json.dumps(modified)
 
