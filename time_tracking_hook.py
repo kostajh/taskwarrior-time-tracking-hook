@@ -25,7 +25,7 @@ def main(stdin):
             + datetime.timedelta(seconds=modified[UDA_KEY])
         )
         modified[UDA_KEY] = (
-            total_duration.days * (3600 * 24) + total_duration.seconds
+            total_duration.days * (60 * 60 * 24) + total_duration.seconds
         )
 
     return json.dumps(modified)
