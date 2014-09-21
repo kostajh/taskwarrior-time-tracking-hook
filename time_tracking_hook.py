@@ -31,5 +31,9 @@ def main(stdin):
     return json.dumps(modified)
 
 
-if __name__ == '__main__':
+def cmdline():
     sys.stdout.write(main(sys.stdin.read()))
+
+
+if __name__ == '__main__':
+    cmdline()

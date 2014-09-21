@@ -16,7 +16,7 @@ setup(
     packages=find_packages(),
     entry_points={
         'console_scripts': [
-            'taskw_timetracking = time_tracking_hook:main'
+            'taskwarrior_timetracking = time_tracking_hook:cmdline'
         ],
     },
 )
