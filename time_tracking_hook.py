@@ -10,7 +10,7 @@ UDA_KEY = 'timetrackingseconds'
 def main(stdin):
     lines = stdin.split('\n')
     original = json.loads(lines[0])
-    modified = json.loads(lines[0])
+    modified = json.loads(lines[1])
 
     if 'end' in modified and 'end' not in original:
         # Let's see how much time has elapsed
