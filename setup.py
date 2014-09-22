@@ -1,8 +1,8 @@
-from setuptools import setup, find_packages
+from setuptools import setup
 
 setup(
     name='taskwarrior-hook-time-tracking',
-    version='0.1',
+    version='0.1.1',
     url='https://github.com/coddingtonbear/taskwarrior-hook-time-tracking',
     description=(
         'Track your time in a UDA in taskwarrior'
@@ -13,7 +13,7 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
     ],
-    packages=find_packages(),
+    packages=['time_tracking_hook'],
     entry_points={
         'console_scripts': [
             'taskwarrior_timetracking = time_tracking_hook:cmdline'
