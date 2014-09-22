@@ -16,7 +16,7 @@ setup(
     packages=find_packages(),
     entry_points={
         'console_scripts': [
-            'taskwarrior_timetracking_hook = taskwarrior_time_tracking_hook:cmdline'
+            'taskwarrior_time_tracking_hook = taskwarrior_time_tracking_hook:cmdline'
         ],
     },
 )
