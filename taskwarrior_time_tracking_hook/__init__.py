@@ -34,7 +34,6 @@ def main(stdin):
             print("Only %d task(s) can be active at a time. "
                   "See 'max_active_tasks' in .taskrc." % (MAX_ACTIVE))
             sys.exit(1)
-        sys.exit(0)
 
     # An active task has just been stopped.
     if 'start' in original and 'start' not in modified:
