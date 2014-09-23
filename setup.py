@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='taskwarrior-time-tracking-hook',
-    version='0.1.2',
+    version='0.1.3',
     url='https://github.com/coddingtonbear/taskwarrior-time-tracking-hook',
     description=(
         'Track your time in a UDA in taskwarrior'
