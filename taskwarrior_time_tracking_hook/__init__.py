@@ -2,9 +2,17 @@
 import datetime
 import json
 import sys
+from taskw import TaskWarrior
 
 TIME_FORMAT = '%Y%m%dT%H%M%SZ'
 UDA_KEY = 'timetrackingseconds'
+
+w = TaskWarrior()
+config = w.load_config()
+if ('max_active_tasks' in config):
+    MAX_ACTIVE = int(config['max_active_tasks'])
+else:
+    MAX_ACTIVE = 1
 
 
 def main(stdin):
@@ -12,10 +20,27 @@ def main(stdin):
     original = json.loads(lines[0])
     modified = json.loads(lines[1])
 
-    if 'start' in original and 'start' not in modified:
-        # Let's see how much time has elapsed
-        start = datetime.datetime.strptime(original['start'], TIME_FORMAT)
-        end = datetime.datetime.utcnow()
+    # An inactive task has just been started.
+    if 'start' in modified and 'start' not in original:
+        # Check if `task +ACTIVE count` is greater than MAX_ACTIVE. If so
+        # prevent this task from starting.
+        stdout, stderr = w._execute(
+            'task +ACTIVE status:pending count rc.verbose:off'
+        )
+        # TODO: This query fails. And `filter_tasks` doesn't seem to work
+        # with the +ACTIVE virtual tag.
+        count = int(stdout.rstrip())
+        if count >= MAX_ACTIVE:
+            print("There are currently %d task(s) active, and your .taskrc\
+                   says only %d task(s) can be active at a time." % (
+                count, MAX_ACTIVE))
+            sys.exit(1)
+
+        # An active task has just been stopped.
+        if 'start' in original and 'start' not in modified:
+            # Let's see how much time has elapsed
+            start = datetime.datetime.strptime(original['start'], TIME_FORMAT)
+            end = datetime.datetime.utcnow()
 
         if UDA_KEY not in modified:
             modified[UDA_KEY] = 0

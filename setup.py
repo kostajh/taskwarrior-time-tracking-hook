@@ -13,6 +13,9 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
     ],
+    install_requires=[
+        "taskw"
+    ],
     packages=find_packages(),
     entry_points={
         'console_scripts': [
