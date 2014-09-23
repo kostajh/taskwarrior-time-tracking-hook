@@ -2,6 +2,7 @@
 import datetime
 import json
 import sys
+import subprocess
 from taskw import TaskWarrior
 
 TIME_FORMAT = '%Y%m%dT%H%M%SZ'
@@ -24,23 +25,22 @@ def main(stdin):
     if 'start' in modified and 'start' not in original:
         # Check if `task +ACTIVE count` is greater than MAX_ACTIVE. If so
         # prevent this task from starting.
-        stdout, stderr = w._execute(
-            'task +ACTIVE status:pending count rc.verbose:off'
-        )
-        # TODO: This query fails. And `filter_tasks` doesn't seem to work
-        # with the +ACTIVE virtual tag.
-        count = int(stdout.rstrip())
+        p = subprocess.Popen(
+            ['task', '+ACTIVE', 'status:pending', 'count', 'rc.verbose:off'],
+            stdout=subprocess.PIPE)
+        out, err = p.communicate()
+        count = int(out.rstrip())
         if count >= MAX_ACTIVE:
-            print("There are currently %d task(s) active, and your .taskrc\
-                   says only %d task(s) can be active at a time." % (
-                count, MAX_ACTIVE))
+            print("Only %d task(s) can be active at a time. "
+                  "See 'max_active_tasks' in .taskrc." % (MAX_ACTIVE))
             sys.exit(1)
+        sys.exit(0)
 
-        # An active task has just been stopped.
-        if 'start' in original and 'start' not in modified:
-            # Let's see how much time has elapsed
-            start = datetime.datetime.strptime(original['start'], TIME_FORMAT)
-            end = datetime.datetime.utcnow()
+    # An active task has just been stopped.
+    if 'start' in original and 'start' not in modified:
+        # Let's see how much time has elapsed
+        start = datetime.datetime.strptime(original['start'], TIME_FORMAT)
+        end = datetime.datetime.utcnow()
 
         if UDA_KEY not in modified:
             modified[UDA_KEY] = 0
