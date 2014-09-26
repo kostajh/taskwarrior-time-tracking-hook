@@ -6,7 +6,7 @@ import subprocess
 from taskw import TaskWarrior
 
 TIME_FORMAT = '%Y%m%dT%H%M%SZ'
-UDA_KEY = 'timetrackingseconds'
+UDA_KEY = 'totalactivetime'
 
 w = TaskWarrior()
 config = w.load_config()
@@ -57,7 +57,7 @@ def main(stdin):
         )
         modified[UDA_KEY] = str(int(
             total_duration.days * (60 * 60 * 24) + total_duration.seconds
-        ))
+        )) + "seconds"
 
     return json.dumps(modified)
 
