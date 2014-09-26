@@ -47,7 +47,10 @@ def main(stdin):
         this_duration = (end - start)
         total_duration = (
             this_duration
-            + datetime.timedelta(seconds=int(modified[UDA_KEY]))
+            + datetime.timedelta(seconds=int(
+                modified[UDA_KEY].rstrip("seconds")
+                )
+            )
         )
         print(
             "Total Time Tracked: %s (%s in this instance)" % (
