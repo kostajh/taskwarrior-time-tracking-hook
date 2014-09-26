@@ -16,3 +16,6 @@ started and stopped working on tasks.
 
 Tracked time is stored in a task duration attribute named ``totalactivetime``
 holding the total number of seconds that the task was active.
+
+By default, this plugin allows you to have one task active at a time. You can
+change this by setting `max_active_tasks` in `taskrc` to a value greater than 1.
