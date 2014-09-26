@@ -48,7 +48,7 @@ def main(stdin):
         total_duration = (
             this_duration
             + datetime.timedelta(seconds=int(
-                modified[UDA_KEY].rstrip("seconds")
+                str(modified[UDA_KEY]).rstrip("seconds")
                 )
             )
         )
