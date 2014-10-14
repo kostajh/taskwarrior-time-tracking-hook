@@ -16,10 +16,9 @@ else:
     MAX_ACTIVE = 1
 
 
-def main(stdin):
-    lines = stdin.split('\n')
-    original = json.loads(lines[0])
-    modified = json.loads(lines[1])
+def main():
+    original = json.loads(sys.stdin.readline())
+    modified = json.loads(sys.stdin.readline())
 
     # An inactive task has just been started.
     if 'start' in modified and 'start' not in original:
@@ -66,7 +65,7 @@ def main(stdin):
 
 
 def cmdline():
-    sys.stdout.write(main(sys.stdin.read()))
+    sys.stdout.write(main())
 
 
 if __name__ == '__main__':
