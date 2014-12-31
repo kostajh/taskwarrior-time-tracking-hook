@@ -61,7 +61,7 @@ def main():
             total_duration.days * (60 * 60 * 24) + total_duration.seconds
         )) + "seconds"
 
-    return json.dumps(modified)
+    return json.dumps(modified, separators=(',',':'))
 
 
 def cmdline():
