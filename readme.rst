@@ -1,7 +1,7 @@
 Taskwarrior Time Tracking Hook
 ==============================
 
-Ensure you have taskwarriror `2.4.x` or higher.
+Ensure you have taskwarrior `2.4.x` or higher.
 
 
 Install using pip::
