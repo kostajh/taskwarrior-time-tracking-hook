@@ -3,6 +3,8 @@ Taskwarrior Time Tracking Hook
 
 Ensure you have taskwarrior `2.4.x` or higher.
 
+Install
++++++++
 
 Install using pip::
 
@@ -19,6 +21,9 @@ Add the ``totalactivetime`` user defined attribute configuration::
     task config uda.totalactivetime.label Total active time
     task config uda.totalactivetime.values ''
 
+Usage
++++++
+
 Use ``task <TASK ID> start`` and ``task <TASK ID> stop`` to record when you have
 started and stopped working on tasks.
 
@@ -27,3 +32,20 @@ holding the total number of seconds that the task was active.
 
 By default, this plugin allows you to have one task active at a time. You can
 change this by setting `max_active_tasks` in `taskrc` to a value greater than 1.
+
+Un-install
+++++++++++
+
+Delete the hook::
+
+    rm ~/.task/hooks/on-modify.timetracking
+    
+Remove the User Defined Attribute (UDA) configuration::
+
+    task config uda.totalactivetime.values
+    task config uda.totalactivetime.label
+    task config uda.totalactivetime.type
+
+Remove the Python program::
+
+    pip uninstall taskwarrior-time-tracking-hook
