@@ -24,7 +24,7 @@ ISO8601DURATION = re.compile(
 # - int (in seconds)
 # - string ending in seconds e.g "123seconds"
 # - ISO-8601: e.g. "PT1H10M31S"
-def durationstrtotimedelta(duration_str):
+def duration_str_to_time_delta(duration_str):
     if (duration_str.startswith("P")):
         match = ISO8601DURATION.match(duration_str)
         if (match):
@@ -47,7 +47,7 @@ def durationstrtotimedelta(duration_str):
                 # Assume a month is 30 days for now.
                 value += int(month)*3600*24*30
             if (year):
-                # Assume a month is 365 days for now.
+                # Assume a year is 365 days for now.
                 value += int(year)*3600*24*365
         else:
             value = int(duration_str)
@@ -87,7 +87,7 @@ def main():
         this_duration = (end - start)
         total_duration = (
             this_duration
-            + durationstrtotimedelta(str(modified[UDA_KEY]))
+            + duration_str_to_time_delta(str(modified[UDA_KEY]))
         )
         print(
             "Total Time Tracked: %s (%s in this instance)" % (
