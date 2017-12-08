@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import datetime
 import json
+import re
 import sys
 import subprocess
 from taskw import TaskWarrior
@@ -15,6 +16,46 @@ if ('max_active_tasks' in config):
 else:
     MAX_ACTIVE = 1
 
+ISO8601DURATION = re.compile(
+    "P((\d*)Y)?((\d*)M)?((\d*)D)?T((\d*)H)?((\d*)M)?((\d*)S)?")
+
+# Convert duration string into a timedelta object.
+# Valid formats for duration_str include
+# - int (in seconds)
+# - string ending in seconds e.g "123seconds"
+# - ISO-8601: e.g. "PT1H10M31S"
+def duration_str_to_time_delta(duration_str):
+    if (duration_str.startswith("P")):
+        match = ISO8601DURATION.match(duration_str)
+        if (match):
+            year = match.group(2)
+            month = match.group(4)
+            day = match.group(6)
+            hour = match.group(8)
+            minute = match.group(10)
+            second = match.group(12)
+            value = 0
+            if (second):
+                value += int(second)
+            if (minute):
+                value += int(minute)*60
+            if (hour):
+                value += int(hour)*3600
+            if (day):
+                value += int(day)*3600*24
+            if (month):
+                # Assume a month is 30 days for now.
+                value += int(month)*3600*24*30
+            if (year):
+                # Assume a year is 365 days for now.
+                value += int(year)*3600*24*365
+        else:
+            value = int(duration_str)
+    elif (duration_str.endswith("seconds")):
+        value = int(duration_str.rstrip("seconds"))
+    else:
+        value = int(duration_str)
+    return datetime.timedelta(seconds=value)
 
 def main():
     original = json.loads(sys.stdin.readline())
@@ -46,10 +87,7 @@ def main():
         this_duration = (end - start)
         total_duration = (
             this_duration
-            + datetime.timedelta(seconds=int(
-                str(modified[UDA_KEY]).rstrip("seconds")
-                )
-            )
+            + duration_str_to_time_delta(str(modified[UDA_KEY]))
         )
         print(
             "Total Time Tracked: %s (%s in this instance)" % (
