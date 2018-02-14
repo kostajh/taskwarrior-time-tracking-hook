@@ -20,6 +20,16 @@ Add the ``totalactivetime`` user defined attribute configuration::
     task config uda.totalactivetime.type duration
     task config uda.totalactivetime.label Total active time
     task config uda.totalactivetime.values ''
+    
+Add to reports (replace list with whichever report type you want to modify)::
+
+    task show report.list.labels
+        ID,Active,Age,...,Urg
+    task show report.list.columns
+        id,start.age,entry.age,...,urgency
+    
+    task config report.list.labels 'ID,Active,Age,Time Spent,...,Urg'
+    task config report.list.labels 'id,start.age,entry.age,totalactivetime,...,urgency'
 
 Usage
 +++++
