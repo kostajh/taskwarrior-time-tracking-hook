@@ -13,7 +13,9 @@ Install using pip::
 And add it to your Taskwarrior hooks::
 
     mkdir -p ~/.task/hooks
-    ln -s `which taskwarrior_time_tracking_hook` ~/.task/hooks/on-modify.timetracking
+    ln -s $(which taskwarrior_time_tracking_hook) ~/.task/hooks/on-modify.timetracking
+
+(if ``~/.local/bin`` is not in your path, this last command will not work. In this case, replace ``$(which taskwarrior_time_tracking_hook)`` by ``~/.local/bin/taskwarrior_time_tracking_hook``)
 
 Add the ``totalactivetime`` user defined attribute configuration::
 
