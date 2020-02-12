@@ -29,7 +29,7 @@ Add to reports (replace list with whichever report type you want to modify)::
         id,start.age,entry.age,...,urgency
     
     task config report.list.labels 'ID,Active,Age,Time Spent,...,Urg'
-    task config report.list.labels 'id,start.age,entry.age,totalactivetime,...,urgency'
+    task config report.list.columns 'id,start.age,entry.age,totalactivetime,...,urgency'
 
 Usage
 +++++
